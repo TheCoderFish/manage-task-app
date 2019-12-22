@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { TasksComponent } from './tasks/tasks.component';
+import { RouterModule, Routes } from '@angular/router';
+import { TaskManagerHomeComponent } from './task-manager-home/task-manager-home.component';
 
 
 const routes: Routes = [
-  { path: '', component: TasksComponent },
+  { path: '', component: TaskManagerHomeComponent },
 
 ];
 
