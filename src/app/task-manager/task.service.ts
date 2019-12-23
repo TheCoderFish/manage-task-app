@@ -4,9 +4,7 @@ import { Task } from './task';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class TaskService {
 
   private baseUrl: string;

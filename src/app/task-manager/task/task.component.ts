@@ -28,6 +28,6 @@ export class TaskComponent implements OnInit {
 
   assignRatingMessage() {
     let priorityMessages = ['Not Important', 'Slightly Important', 'Important', 'Very Important', 'Extremely Important'];
-    this.ratingMessage = priorityMessages[this.task.rating];
+    this.ratingMessage = priorityMessages[this.task.rating-1];    
   }
 }

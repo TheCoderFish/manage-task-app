@@ -13,15 +13,10 @@ import { map } from 'rxjs/operators';
 export class ViewTasksComponent implements OnInit {
 
   public addedTasks$: Observable<Task[]>;
-  //public sortBy: EventEmitter<string>;
 
   constructor(private tasksStore: TasksStoreService,
     private editTaskService: EditTaskService) {
-    //this.sortBy = new EventEmitter<string>();
   }
-
-  taskTrackFn = (i,task) => task.id;
-
   ngOnInit() {
     this.addedTasks$ = this.tasksStore.tasks$;
   }
@@ -33,7 +28,7 @@ export class ViewTasksComponent implements OnInit {
 
   sortBy(filter) {
     console.log(filter);
-    
+
     switch (filter) {
       case 'complete':
         this.addedTasks$ = this.tasksStore.sortByCompleted$;

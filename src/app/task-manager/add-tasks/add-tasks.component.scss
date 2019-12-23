@@ -6,3 +6,9 @@ mat-form-field {
 mat-form-field:not(:first-child) {
     width: 50%;
 }
+
+.edit {
+    border: 2px solid blueviolet;
+    border-radius: 5px;
+    padding: 10px;
+}
