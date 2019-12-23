@@ -20,6 +20,8 @@ export class ViewTasksComponent implements OnInit {
     //this.sortBy = new EventEmitter<string>();
   }
 
+  taskTrackFn = (i,task) => task.id;
+
   ngOnInit() {
     this.addedTasks$ = this.tasksStore.tasks$;
   }
@@ -27,6 +29,7 @@ export class ViewTasksComponent implements OnInit {
   toggleEditMode(task) {
     this.editTaskService.editTask(task);
   }
+
 
   sortBy(filter) {
     switch (filter) {
@@ -38,6 +41,9 @@ export class ViewTasksComponent implements OnInit {
         break;
       case 'date':
         this.addedTasks$ = this.tasksStore.sortByDate$;
+        break;
+      case 'rating':
+        this.addedTasks$ = this.tasksStore.sortByRating$;
         break;
       default:
         this.addedTasks$ = this.tasksStore.tasks$;

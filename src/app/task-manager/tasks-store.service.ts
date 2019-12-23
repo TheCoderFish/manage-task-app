@@ -15,6 +15,7 @@ export class TasksStoreService {
   public sortByCompleted$: Observable<Task[]>;
   public sortByName$: Observable<Task[]>;
   public sortByDate$: Observable<Task[]>;
+  public sortByRating$: Observable<Task[]>;
 
 
   constructor(private taskService: TaskService) {
@@ -80,6 +81,11 @@ export class TasksStoreService {
     this.sortByDate$ = this.tasks$.pipe(
       map(arr => [...arr]),
       map((tasks: Task[]) => tasks.sort((x, y) => new Date(x.completeBy).getTime() - new Date(y.completeBy).getTime()))
+    )
+
+    this.sortByRating$ = this.tasks$.pipe(
+      map(arr => [...arr]),
+      map((tasks: Task[]) => tasks.sort((x, y) => y.rating - x.rating))
     )
   }
 }

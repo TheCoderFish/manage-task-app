@@ -1,4 +1,4 @@
-<ng-container *ngFor="let task of addedTasks$ | async">
+<ng-container *ngFor="let task of addedTasks$ | async; trackBy: taskTrackFn">
     <app-task [task]="task" (complete)="tasksStore.setCompleted($event,task)" 
                             (remove)="tasksStore.removeTask(task.id)"
                             (edit)="toggleEditMode(task)"></app-task>
