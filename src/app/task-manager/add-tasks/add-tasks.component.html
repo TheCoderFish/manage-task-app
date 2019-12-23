@@ -1,7 +1,12 @@
-<form [formGroup]="addTasksForm" (ngSubmit)="addTask()">
+<form [formGroup]="tasksForm" (ngSubmit)="saveChange()">
     <label for="title">Enter Task Title</label>
     <input type="text" formControlName="title">
     <label for="completeBy">Choose Complete By Date</label>
     <input type="date" formControlName="completeBy">
-    <button>Add Task</button>
+    <ng-container *ngIf="!editMode; else elseTemplate">
+        <button >Add Task</button>
+    </ng-container>
+    <ng-template #elseTemplate>
+        <button >Edit Task</button>
+    </ng-template>
 </form>

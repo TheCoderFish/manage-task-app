@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TasksStoreService } from '../tasks-store.service';
 import { Task } from '../task';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { EditTaskService } from '../edit-task.service';
 
 @Component({
   selector: 'app-add-tasks',
@@ -10,22 +11,42 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class AddTasksComponent implements OnInit {
 
-  public addTasksForm: FormGroup;
+  public tasksForm: FormGroup;
+  private editMode: boolean;
+  private taskToEdit: Task;
 
   constructor(private tasksStore: TasksStoreService,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder,
+    private editTaskService: EditTaskService) { }
 
   ngOnInit() {
-    this.addTasksForm = this.fb.group({
+
+    this.editMode = false;
+    this.tasksForm = this.fb.group({
       title: ['', [Validators.required]],
       completeBy: ['', [Validators.required]]
     });
+
+    this.editTaskService.editTask$.subscribe(task => {
+      this.taskToEdit = task;
+      this.editMode = !this.editMode;
+      this.tasksForm.patchValue(task);
+    });
   }
 
-  public addTask() {
-    let newTask: Task = this.addTasksForm.getRawValue();
-    newTask.isCompleted = false;
-    this.tasksStore.addTask(newTask);
+  public saveChange() {
+    let task: Task = this.tasksForm.getRawValue();
+    if (!this.editMode) {
+      task.isCompleted = false;
+      this.tasksStore.addTask(task);
+    } else {
+      task.isCompleted = this.taskToEdit.isCompleted;
+      task.id = this.taskToEdit.id;
+      this.tasksStore.updateTask(task);
+      this.editMode = !this.editMode;
+    }
+    this.tasksForm.reset();
+    this.taskToEdit = null;
   }
 
 }

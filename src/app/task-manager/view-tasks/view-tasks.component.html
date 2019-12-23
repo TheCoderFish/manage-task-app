@@ -1,3 +1,5 @@
 <ng-container *ngFor="let task of addedTasks$ | async">
-    <app-task [task]="task" (complete)="tasksStore.setCompleted($event,task)" (remove)="tasksStore.removeTask(task.id)"></app-task>
+    <app-task [task]="task" (complete)="tasksStore.setCompleted($event,task)" 
+                            (remove)="tasksStore.removeTask(task.id)"
+                            (edit)="toggleEditMode(task)"></app-task>
 </ng-container>
