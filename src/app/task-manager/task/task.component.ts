@@ -14,6 +14,8 @@ export class TaskComponent implements OnInit {
   @Output() remove: EventEmitter<any>;
   @Output() edit: EventEmitter<any>;
 
+  ratingMessage: string;
+
   constructor() {
     this.complete = new EventEmitter<boolean>();
     this.remove = new EventEmitter<any>();
@@ -21,5 +23,11 @@ export class TaskComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.assignRatingMessage();
+  }
+
+  assignRatingMessage() {
+    let priorityMessages = ['Not Important', 'Slightly Important', 'Important', 'Very Important', 'Extremely Important'];
+    this.ratingMessage = priorityMessages[this.task.rating];
   }
 }

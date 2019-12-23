@@ -1,16 +1,25 @@
-<ng-container *ngFor="let task of addedTasks$ | async; trackBy: taskTrackFn">
-    <app-task [task]="task" (complete)="tasksStore.setCompleted($event,task)" 
-                            (remove)="tasksStore.removeTask(task.id)"
-                            (edit)="toggleEditMode(task)"></app-task>
-</ng-container>
+<ng-container *ngIf="addedTasks$ | async; let tasks">
+    <ng-container *ngIf="tasks.length > 0; else allDone">
+        <mat-form-field>
+            <mat-label>Sort By</mat-label>
+            <mat-select (selectionChange)="sortBy($event.value)">
+                <mat-option value="">Default</mat-option>
+                <mat-option value="rating">Rating</mat-option>
+                <mat-option value="name">Name</mat-option>
+                <mat-option value="complete">Complete</mat-option>
+                <mat-option value="date">Date</mat-option>
+            </mat-select>
+        </mat-form-field>
 
-<div>
-    <select (change)="sortBy($event.target.value)">
-        <option selected disabled hidden>Select SortBy</option>
-        <option value="">Default</option>
-        <option value="rating">Rating</option>
-        <option value="name">Name</option>
-        <option value="complete">Complete</option>
-        <option value="date">Date</option>
-    </select>
-</div>
+        <mat-list role="list">
+            <ng-container *ngFor="let task of tasks;let i = index; trackBy: taskTrackFn">
+                <app-task [task]="task" (complete)="tasksStore.setCompleted($event,task)" (remove)="tasksStore.removeTask(task.id)" (edit)="toggleEditMode(task)"></app-task>
+            </ng-container>
+        </mat-list>
+    </ng-container>
+    <ng-template #allDone>
+        <div fxLayout="row" fxLayoutAlign="center center">
+            <h4>All Done!! 🏖</h4>
+        </div>
+    </ng-template>
+</ng-container>

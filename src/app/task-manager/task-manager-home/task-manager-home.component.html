@@ -1,2 +1,27 @@
-<app-add-tasks></app-add-tasks>
-<app-view-tasks (complete)="complete($event)"></app-view-tasks>
+<div fxLayout="column" fxLayoutAlign="start stretch" class="cards">
+    <div fxLayout="row" fxLayoutAlign="center">
+        <div fxFlex="90%" fxFlex.md="66.6667%" fxFlex.gt-md="50%">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>
+                        <h2>Add Tasks</h2>
+                    </mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <app-add-tasks></app-add-tasks>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>
+                        <h2>To Do Tasks</h2>
+                    </mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <app-view-tasks></app-view-tasks>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>

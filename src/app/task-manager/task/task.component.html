@@ -1,7 +1,12 @@
-<input type="checkbox" [checked]="task.isCompleted" (change)="complete.emit($event.target.checked)">
+<mat-list-item>
+    <mat-checkbox matLine [checked]="task.isCompleted" (change)="complete.emit($event.checked)"><span [class.complete]="task?.isCompleted">{{ task?.title }}</span></mat-checkbox>
 
-<p>{{task.title}}</p>
-<p>{{task.completeBy | date}}</p>
-<p>{{task.isCompleted}}</p>
-<button (click)="edit.emit()">Edit Task</button>
-<button (click)="remove.emit()">Remove Task</button>
+    <p matLine>Complete By : {{task.completeBy | date}}</p>
+    <p matLine>{{ratingMessage}}</p>
+    <div fxLayout="row" fxLayoutAlign="start">
+        <button mat-button color="primary" (click)="edit.emit()" type="button">Edit Task</button>
+        <button mat-button color="warn" (click)="remove.emit()" type="button">Delete Task</button>
+    </div>
+    <mat-divider></mat-divider>
+</mat-list-item>
+<!-- <mat-icon svgIcon="../../../assets/images/edit-24px.svg"></mat-icon> -->

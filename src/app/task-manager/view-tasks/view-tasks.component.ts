@@ -32,6 +32,8 @@ export class ViewTasksComponent implements OnInit {
 
 
   sortBy(filter) {
+    console.log(filter);
+    
     switch (filter) {
       case 'complete':
         this.addedTasks$ = this.tasksStore.sortByCompleted$;
