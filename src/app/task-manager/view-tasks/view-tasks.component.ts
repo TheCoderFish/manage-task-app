@@ -1,8 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { TasksStoreService } from '../tasks-store.service';
 import { Observable } from 'rxjs';
 import { Task } from '../task';
 import { EditTaskService } from '../edit-task.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-view-tasks',
@@ -12,9 +13,12 @@ import { EditTaskService } from '../edit-task.service';
 export class ViewTasksComponent implements OnInit {
 
   public addedTasks$: Observable<Task[]>;
+  //public sortBy: EventEmitter<string>;
 
   constructor(private tasksStore: TasksStoreService,
-    private editTaskService: EditTaskService) { }
+    private editTaskService: EditTaskService) {
+    //this.sortBy = new EventEmitter<string>();
+  }
 
   ngOnInit() {
     this.addedTasks$ = this.tasksStore.tasks$;
@@ -22,5 +26,22 @@ export class ViewTasksComponent implements OnInit {
 
   toggleEditMode(task) {
     this.editTaskService.editTask(task);
+  }
+
+  sortBy(filter) {
+    switch (filter) {
+      case 'complete':
+        this.addedTasks$ = this.tasksStore.sortByCompleted$;
+        break;
+      case 'name':
+        this.addedTasks$ = this.tasksStore.sortByName$;
+        break;
+      case 'date':
+        this.addedTasks$ = this.tasksStore.sortByDate$;
+        break;
+      default:
+        this.addedTasks$ = this.tasksStore.tasks$;
+        break;
+    }
   }
 }

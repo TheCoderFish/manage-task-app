@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Task } from './task';
 import { TaskService } from './task.service';
+import { filter, map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,11 @@ export class TasksStoreService {
 
   private _tasks: BehaviorSubject<Task[]>;
 
-  public readonly tasks$: Observable<Task[]>;
+  public tasks$: Observable<Task[]>;
+  public sortByCompleted$: Observable<Task[]>;
+  public sortByName$: Observable<Task[]>;
+  public sortByDate$: Observable<Task[]>;
+
 
   constructor(private taskService: TaskService) {
     this._tasks = new BehaviorSubject<Task[]>([]);
@@ -61,6 +66,20 @@ export class TasksStoreService {
     this.taskService.getTasks().subscribe(tasks => {
       this.tasks = tasks;
     });
-  }
 
+    this.sortByCompleted$ = this.tasks$.pipe(
+      map(arr => [...arr]),
+      map((tasks: Task[]) => tasks.sort((x, y) => (x.isCompleted === y.isCompleted) ? 0 : x.isCompleted ? -1 : 1))
+    );
+
+    this.sortByName$ = this.tasks$.pipe(
+      map(arr => [...arr]),
+      map((tasks: Task[]) => tasks.sort((x, y) => (x.title === y.title) ? 0 : x.title < y.title ? -1 : 1))
+    )
+
+    this.sortByDate$ = this.tasks$.pipe(
+      map(arr => [...arr]),
+      map((tasks: Task[]) => tasks.sort((x, y) => new Date(x.completeBy).getTime() - new Date(y.completeBy).getTime()))
+    )
+  }
 }
