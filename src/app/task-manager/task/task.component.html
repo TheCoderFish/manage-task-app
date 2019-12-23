@@ -1,0 +1,5 @@
+<input type="checkbox" [checked]="task.isCompleted" (change)="complete.emit($event.target.checked)">
+
+<p>{{task.title}}</p>
+<p>{{task.completeBy | date}}</p>
+<p>{{task.isCompleted}}</p>

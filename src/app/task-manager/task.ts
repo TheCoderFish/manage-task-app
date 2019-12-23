@@ -1,8 +1,8 @@
 export class Task {
     constructor(
-        private id?: number,
-        private title?: string,
-        private completeBy?: Date,
-        private isCompleted?: boolean
+        public title?: string,
+        public completeBy?: Date,
+        public isCompleted?: boolean,
+        public id?: number,
     ) { }
 }

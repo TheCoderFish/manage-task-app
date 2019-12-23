@@ -24,6 +24,7 @@ export class AddTasksComponent implements OnInit {
 
   public addTask() {
     let newTask: Task = this.addTasksForm.getRawValue();
+    newTask.isCompleted = false;
     this.tasksStore.addTask(newTask);
   }
 

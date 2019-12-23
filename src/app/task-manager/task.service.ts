@@ -30,4 +30,8 @@ export class TaskService {
   updateTask(id: number, updatedTask: Task): Observable<Task> {
     return this.http.patch<Task>(`${this.baseUrl}/tasks/${id}`, updatedTask)
   }
+
+  setCompleted(isCompleted: boolean, task: Task) {
+    return this.http.put(`${this.baseUrl}/tasks/${task.id}`, task);
+  }
 }

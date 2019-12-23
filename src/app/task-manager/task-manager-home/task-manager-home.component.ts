@@ -11,5 +11,4 @@ export class TaskManagerHomeComponent implements OnInit {
 
   ngOnInit() {
   }
-
 }

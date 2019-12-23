@@ -36,6 +36,15 @@ export class TasksStoreService {
     }
   }
 
+  public setCompleted(status: boolean, task: Task) {
+    task.isCompleted = status;
+    this.taskService.setCompleted(status, task).subscribe(task => {
+      console.log(task);
+    }, err => {
+      console.error(err);
+    });
+  }
+
   public initializeTasks() {
     this.taskService.getTasks().subscribe(tasks => {
       this.tasks = tasks;

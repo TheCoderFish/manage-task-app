@@ -1,0 +1,3 @@
+<ng-container *ngFor="let task of addedTasks$ | async">
+    <app-task [task]="task" (complete)="tasksStore.setCompleted($event,task)"></app-task>
+</ng-container>
