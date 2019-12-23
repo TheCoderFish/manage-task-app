@@ -1,27 +1,26 @@
 <form [formGroup]="tasksForm" [class.edit]="editMode">
     <mat-form-field>
-        <input matInput placeholder="Enter Task Title" formControlName="title">
+        <input matInput placeholder="Enter Task Title" formControlName="title" autocomplete="off">
+        <mat-error *ngIf="title.hasError('required') && title.touched">Required</mat-error>
     </mat-form-field>
 
     <mat-form-field class="date-picker">
         <input matInput [matDatepicker]="picker" placeholder="Choose a date" formControlName="completeBy">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="completeBy.hasError('required') && completeBy.touched">Required</mat-error>
     </mat-form-field>
 
     <mat-form-field>
-        <input matInput placeholder="Rating" formControlName="rating" type="number">
+        <input matInput placeholder="Rating (Please rate between 1 - 5)" formControlName="rating" type="number">
+        <mat-error *ngIf="rating.hasError('required') && rating.touched">Required</mat-error>
+        <mat-error *ngIf="(rating.hasError('min') || rating.hasError('max')) && rating.touched">Rating must be between 1-5</mat-error>
     </mat-form-field>
-    <!-- <p matLine>Ratings [ ( 1 : 'Not Important' ), ( 2 :'Slightly Important'),( 3:'Important'), (4: 'Very Important' ),(5: 'Extremely Important)']</p> -->
 
     <div fxLayout="row" fxLayoutAlign="start">
         <button mat-raised-button color="primary" (click)="saveChange()" type="button">
-            <span *ngIf="!editMode; else elseTemplate">
-                Add Task
-            </span>
-            <ng-template #elseTemplate>
-                <span>Update Task</span>
-            </ng-template>
+            <span *ngIf="!editMode; else elseTemplate">Add Task</span>
+            <ng-template #elseTemplate><span>Update Task</span></ng-template>
         </button>
         <button mat-raised-button color="warn" (click)="tasksForm.reset()" type="button">Reset</button>
     </div>
