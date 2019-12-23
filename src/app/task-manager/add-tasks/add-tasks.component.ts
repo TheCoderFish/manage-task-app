@@ -24,7 +24,8 @@ export class AddTasksComponent implements OnInit {
     this.editMode = false;
     this.tasksForm = this.fb.group({
       title: ['', [Validators.required]],
-      completeBy: ['', [Validators.required]]
+      completeBy: ['', [Validators.required]],
+      rating: ['', [Validators.required]]
     });
 
     this.editTaskService.editTask$.subscribe(task => {
@@ -35,18 +36,24 @@ export class AddTasksComponent implements OnInit {
   }
 
   public saveChange() {
-    let task: Task = this.tasksForm.getRawValue();
-    if (!this.editMode) {
-      task.isCompleted = false;
-      this.tasksStore.addTask(task);
+    if (this.tasksForm.valid) {
+      let task: Task = this.tasksForm.getRawValue();
+      if (!this.editMode) {
+        task.isCompleted = false;
+        this.tasksStore.addTask(task);
+      } else {
+        task.isCompleted = this.taskToEdit.isCompleted;
+        task.id = this.taskToEdit.id;
+        this.tasksStore.updateTask(task);
+        this.editMode = !this.editMode;
+        this.taskToEdit = null;
+      }
+      this.tasksForm.reset();
+      this.tasksForm.markAsPristine();
+      this.tasksForm.markAsUntouched();
     } else {
-      task.isCompleted = this.taskToEdit.isCompleted;
-      task.id = this.taskToEdit.id;
-      this.tasksStore.updateTask(task);
-      this.editMode = !this.editMode;
+      this.tasksForm.markAllAsTouched();
     }
-    this.tasksForm.reset();
-    this.taskToEdit = null;
+    this.tasksForm.updateValueAndValidity();
   }
-
 }

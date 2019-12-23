@@ -1,12 +1,27 @@
-<form [formGroup]="tasksForm" (ngSubmit)="saveChange()">
-    <label for="title">Enter Task Title</label>
-    <input type="text" formControlName="title">
-    <label for="completeBy">Choose Complete By Date</label>
-    <input type="date" formControlName="completeBy">
-    <ng-container *ngIf="!editMode; else elseTemplate">
-        <button >Add Task</button>
-    </ng-container>
-    <ng-template #elseTemplate>
-        <button >Edit Task</button>
-    </ng-template>
+<form [formGroup]="tasksForm">
+    <mat-form-field>
+        <input matInput placeholder="Enter Task Title" formControlName="title">
+    </mat-form-field>
+
+    <mat-form-field class="date-picker">
+        <input matInput [matDatepicker]="picker" placeholder="Choose a date" formControlName="completeBy">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput placeholder="Rating" formControlName="rating" type="number">
+    </mat-form-field>
+
+    <div fxLayout="row" fxLayoutAlign="start">
+        <button mat-raised-button color="primary" (click)="saveChange()" type="button">
+            <span *ngIf="!editMode; else elseTemplate">
+                Add Task
+            </span>
+            <ng-template #elseTemplate>
+                <span>Update Task</span>
+            </ng-template>
+        </button>
+        <button mat-raised-button color="warn" (click)="tasksForm.reset()" type="button">Reset</button>
+    </div>
 </form>
