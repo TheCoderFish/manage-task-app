@@ -24,7 +24,7 @@ export class TaskService {
   }
 
   deleteTask(taskId: number): Observable<Response> {
-    return this.http.delete<Response>(`${this.baseUrl}/tasks/${taskId}`)
+    return this.http.delete<Response>(`${this.baseUrl}/tasks/${taskId}`);
   }
 
   updateTask(id: number, updatedTask: Task): Observable<Task> {

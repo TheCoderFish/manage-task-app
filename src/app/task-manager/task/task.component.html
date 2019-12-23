@@ -3,3 +3,5 @@
 <p>{{task.title}}</p>
 <p>{{task.completeBy | date}}</p>
 <p>{{task.isCompleted}}</p>
+
+<button (click)="remove.emit()">Remove Task</button>

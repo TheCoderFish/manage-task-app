@@ -11,9 +11,11 @@ export class TaskComponent implements OnInit {
 
   @Input() task: Task;
   @Output() complete: EventEmitter<boolean>;
+  @Output() remove: EventEmitter<any>;
 
   constructor() {
     this.complete = new EventEmitter<boolean>();
+    this.remove = new EventEmitter<any>();
   }
 
   ngOnInit() {

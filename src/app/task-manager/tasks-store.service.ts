@@ -45,6 +45,11 @@ export class TasksStoreService {
     });
   }
 
+  public removeTask(taskId: number) {
+    this.taskService.deleteTask(taskId).subscribe(task => {
+      this.initializeTasks();
+    });
+  }
   public initializeTasks() {
     this.taskService.getTasks().subscribe(tasks => {
       this.tasks = tasks;
