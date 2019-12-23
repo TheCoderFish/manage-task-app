@@ -1,3 +1,6 @@
+/**
+ * Data Model Task
+ */
 export class Task {
     constructor(
         public title?: string,

@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { Task } from './task';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class EditTaskService {
 
   private _editTask: Subject<Task>;
@@ -15,7 +13,13 @@ export class EditTaskService {
     this.editTask$ = this._editTask.asObservable();
   }
 
-  public editTask(task:Task){
+  /**
+   * editTask
+   * @param task 
+   * emit task to be edited
+   */
+  public editTask(task: Task) {
     this._editTask.next(task);
   }
+
 }

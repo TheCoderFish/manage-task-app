@@ -12,38 +12,45 @@ import { map } from 'rxjs/operators';
 })
 export class ViewTasksComponent implements OnInit {
 
-  public addedTasks$: Observable<Task[]>;
+  public tasks$: Observable<Task[]>;
 
   constructor(private tasksStore: TasksStoreService,
-    private editTaskService: EditTaskService) {
+              private editTaskService: EditTaskService) {
   }
   ngOnInit() {
-    this.addedTasks$ = this.tasksStore.tasks$;
+    this.tasks$ = this.tasksStore.tasks$;
   }
 
-  toggleEditMode(task) {
+  /**
+   * toggleEditMode
+   * @param task 
+   * emits the task to be edited , subscriber is listening to it in add-tasks component
+   */
+  toggleEditMode(task:Task) {
     this.editTaskService.editTask(task);
   }
 
-
-  sortBy(filter) {
-    console.log(filter);
-
-    switch (filter) {
+  /**
+   * sortBy
+   * @param filter 
+   * recives value onDropDown change and assigns appropriate observable stream from store
+   */
+  sortBy(sortBy:string) {
+    switch (sortBy) {
       case 'complete':
-        this.addedTasks$ = this.tasksStore.sortByCompleted$;
+        this.tasks$ = this.tasksStore.sortByCompleted$;
         break;
       case 'name':
-        this.addedTasks$ = this.tasksStore.sortByName$;
+        this.tasks$ = this.tasksStore.sortByName$;
         break;
       case 'date':
-        this.addedTasks$ = this.tasksStore.sortByDate$;
+        this.tasks$ = this.tasksStore.sortByDate$;
         break;
       case 'rating':
-        this.addedTasks$ = this.tasksStore.sortByRating$;
+        this.tasks$ = this.tasksStore.sortByRating$;
         break;
       default:
-        this.addedTasks$ = this.tasksStore.tasks$;
+        this.tasks$ = this.tasksStore.tasks$;
         break;
     }
   }

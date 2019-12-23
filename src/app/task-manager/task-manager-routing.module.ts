@@ -5,7 +5,6 @@ import { TaskManagerHomeComponent } from './task-manager-home/task-manager-home.
 
 const routes: Routes = [
   { path: '', component: TaskManagerHomeComponent },
-
 ];
 
 @NgModule({
