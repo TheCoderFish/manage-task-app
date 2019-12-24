@@ -1,7 +1,14 @@
 <mat-list-item>
     <mat-checkbox matLine [checked]="task.isCompleted" (change)="complete.emit($event.checked)"><span [class.complete]="task?.isCompleted">{{ task?.title }}</span></mat-checkbox>
-    <p matLine>Complete By : {{task.completeBy | date}}</p>
-    <p matLine>{{ratingMessage}}</p>
+    <mat-label matLine *ngIf="!task.isCompleted">Complete By : {{task.completeBy | date}}</mat-label>
+    <mat-label matLine *ngIf="task.isCompleted">Task Completed</mat-label>
+    <!-- <p matLine>{{ratingMessage}}</p> -->
+    <mat-label matLine>
+        <ng-container *ngFor="let r of rating;index as i">
+            <!-- <mat-icon color="accent">{{task.rating >= (i + 1) ? 'star' : 'star_border'}}</mat-icon> -->
+            <mat-icon color="accent">star</mat-icon>
+        </ng-container>
+    </mat-label>
     <button mat-button color="primary" (click)="edit.emit()" type="button">Edit Task</button>
     <button mat-button color="warn" (click)="remove.emit()" type="button">Delete Task</button>
     <mat-divider></mat-divider>

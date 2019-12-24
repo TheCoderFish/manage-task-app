@@ -1,8 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Task } from '../task';
-
-//Messages based on priority, index corresponds to priority, eg MESSAGES[0] --> priority 1
-const MESSAGES = ['Not Important', 'Slightly Important', 'Important', 'Very Important', 'Extremely Important'];
 
 @Component({
   selector: 'app-task',
@@ -17,6 +14,7 @@ export class TaskComponent implements OnInit {
   @Output() public edit: EventEmitter<any>;
 
   public ratingMessage: string;
+  private rating: number[];
 
   constructor() {
     this.complete = new EventEmitter<boolean>();
@@ -25,13 +23,6 @@ export class TaskComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.assignRatingMessage();
-  }
-
-  /**
-   * assigns message according to priority on init
-   */
-  public assignRatingMessage(): void {
-    this.ratingMessage = MESSAGES[this.task.rating - 1];
+    this.rating = Array.from(new Array(this.task.rating), (i, index) => index);
   }
 }

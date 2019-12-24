@@ -12,7 +12,7 @@
         </mat-form-field>
 
         <mat-list role="list">
-            <ng-container *ngFor="let task of tasks;let i = index; trackBy: taskTrackFn">
+            <ng-container *ngFor="let task of tasks;let i = index">
                 <app-task [task]="task" (complete)="tasksStore.setCompleted($event,task)" (remove)="tasksStore.removeTask(task.id)" (edit)="toggleEditMode(task)"></app-task>
             </ng-container>
         </mat-list>
