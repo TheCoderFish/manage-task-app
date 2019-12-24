@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 import { Task } from './task';
 import { TaskService } from './task.service';
 
@@ -8,6 +8,7 @@ import { TaskService } from './task.service';
 export class TasksStoreService {
 
   private _tasks: BehaviorSubject<Task[]>;
+  private destroy$: Subject<boolean>;
 
   public tasks$: Observable<Task[]>;
   public sortByCompleted$: Observable<Task[]>;
@@ -19,6 +20,7 @@ export class TasksStoreService {
   constructor(private taskService: TaskService) {
     this._tasks = new BehaviorSubject<Task[]>([]);
     this.tasks$ = this._tasks.asObservable();
+    this.destroy$ = new Subject<boolean>();
     this.initializeTasks();
   }
 
@@ -44,7 +46,7 @@ export class TasksStoreService {
    */
   public addTask(newTask: Task) {
     if (newTask) {
-      this.taskService.addTask(newTask).subscribe(task => {
+      this.taskService.addTask(newTask).pipe(takeUntil(this.destroy$)).subscribe(task => {
         this.tasks = [...this.tasks, task];
       }, err => {
         console.error(err);
@@ -58,7 +60,7 @@ export class TasksStoreService {
    * Updated task after editing required parameters
    */
   public updateTask(updatedTask: Task) {
-    this.taskService.updateTask(updatedTask.id, updatedTask).subscribe(task => {
+    this.taskService.updateTask(updatedTask.id, updatedTask).pipe(takeUntil(this.destroy$)).subscribe(task => {
       this.initializeTasks();
     });
 
@@ -71,7 +73,7 @@ export class TasksStoreService {
    */
   public setCompleted(status: boolean, task: Task) {
     task.isCompleted = status;
-    this.taskService.setCompleted(status, task).subscribe(task => {
+    this.taskService.setCompleted(status, task).pipe(takeUntil(this.destroy$)).subscribe(task => {
       console.log(task);
     }, err => {
       console.error(err);
@@ -83,7 +85,7 @@ export class TasksStoreService {
    * @param taskId 
    */
   public removeTask(taskId: number) {
-    this.taskService.deleteTask(taskId).subscribe(task => {
+    this.taskService.deleteTask(taskId).pipe(takeUntil(this.destroy$)).subscribe(task => {
       this.initializeTasks();
     });
   }
@@ -94,7 +96,7 @@ export class TasksStoreService {
    * Initialize streams for sorting
    */
   public initializeTasks() {
-    this.taskService.getTasks().subscribe(tasks => {
+    this.taskService.getTasks().pipe(takeUntil(this.destroy$)).subscribe(tasks => {
       this.tasks = tasks;
     });
 
@@ -117,5 +119,10 @@ export class TasksStoreService {
       map(arr => [...arr]),
       map((tasks: Task[]) => tasks.sort((x, y) => y.rating - x.rating))
     )
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }

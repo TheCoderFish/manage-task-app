@@ -3,6 +3,7 @@ import { TasksStoreService } from '../tasks-store.service';
 import { Task } from '../task';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { EditTaskService } from '../edit-task.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-add-tasks',
@@ -14,6 +15,7 @@ export class AddTasksComponent implements OnInit {
   public tasksForm: FormGroup;
   private _editMode: boolean;
   private _taskToEdit: Task;
+  private subscription: Subscription;
 
   constructor(private fb: FormBuilder,
     private tasksStore: TasksStoreService,
@@ -35,7 +37,7 @@ export class AddTasksComponent implements OnInit {
      * Activates Edit Mode when Edir button is clikced in Tasks List View
      * Updates the form with Value for easy update
      */
-    this.editTaskService.editTask$.subscribe(task => {
+    this.subscription = this.editTaskService.editTask$.subscribe(task => {
       this.taskToEdit = task;
       this.editMode = !this.editMode;
       this.tasksForm.patchValue(task);
@@ -111,6 +113,10 @@ export class AddTasksComponent implements OnInit {
 
   private setRating(rating: number): void {
     this.tasksForm.get('rating').setValue(rating);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
 }
