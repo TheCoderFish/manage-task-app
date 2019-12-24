@@ -11,11 +11,9 @@
         <mat-error *ngIf="completeBy.hasError('required') && completeBy.touched">Required</mat-error>
     </mat-form-field>
 
-    <mat-form-field>
-        <input matInput placeholder="Rating (Please rate between 1 - 5)" formControlName="rating" type="number">
-        <mat-error *ngIf="rating.hasError('required') && rating.touched">Required</mat-error>
-        <mat-error *ngIf="(rating.hasError('min') || rating.hasError('max')) && rating.touched">Rating must be between 1-5</mat-error>
-    </mat-form-field>
+    <div fxLayout="row" fxLayoutAlign="start">
+        <mat-star-rating [rating]="rating.value" (ratingUpdated)="onRatingChanged($event)"></mat-star-rating>
+    </div>
 
     <div fxLayout="row" fxLayoutAlign="start">
         <button mat-raised-button color="primary" (click)="saveChange()" type="button">

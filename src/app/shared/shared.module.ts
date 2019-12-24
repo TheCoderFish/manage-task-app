@@ -12,13 +12,24 @@ import {
   MatDatepickerModule,
   MatNativeDateModule,
   MatIconModule,
-  MatSelectModule
+  MatSelectModule,
+  MatSnackBarModule,
+  MatTooltipModule
 } from '@angular/material';
+import { StarRatingComponent } from './components/star-rating/star-rating.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    StarRatingComponent
+  ],
   imports: [
-    CommonModule
+    CommonModule,
+    MatSnackBarModule,
+    MatButtonModule,
+    MatButtonModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatTooltipModule
   ],
   exports: [
     MatButtonModule,
@@ -34,6 +45,8 @@ import {
     MatSelectModule,
     ReactiveFormsModule,
     FormsModule,
+    StarRatingComponent,
+    MatTooltipModule
 
   ]
 })

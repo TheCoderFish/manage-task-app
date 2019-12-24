@@ -104,4 +104,13 @@ export class AddTasksComponent implements OnInit {
   public get rating(): FormControl {
     return this.tasksForm.get('rating') as FormControl;
   }
+
+  public onRatingChanged(rating: number) {
+    this.setRating(rating);
+  }
+
+  private setRating(rating: number): void {
+    this.tasksForm.get('rating').setValue(rating);
+  }
+
 }
